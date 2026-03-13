@@ -1,13 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
   // output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model SiteReview {
@@ -19,7 +17,6 @@ model SiteReview {
   createdAt    DateTime @default(now())
 }
 
-
 model Product {
   id          Int      @id @default(autoincrement())
   slug        String   @unique
@@ -30,4 +27,14 @@ model Product {
   tags        String[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  roles     String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

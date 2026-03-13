@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "seed":"ts-node seed/seed-database.ts"
+    "seed": "ts-node seed/seed-database.ts"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.15.2",
@@ -18,7 +18,9 @@
     "@nuxt/ui": "^4.5.1",
     "@prisma/client": "^6.19.0",
     "@prisma/nuxt": "^0.3.0",
+    "bcryptjs": "^3.0.3",
     "nuxt": "^4.3.1",
+    "nuxt-auth-utils": "^0.4.2",
     "prisma": "^6.19.0",
     "tailwindcss": "^4.2.1",
     "vue": "^3.5.29",

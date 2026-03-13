@@ -4,69 +4,72 @@ import {
   type CommandPaletteGroup,
   type CommandPaletteItem,
   type NavigationMenuItem,
-} from '@nuxt/ui';
+} from "@nuxt/ui";
+
+const { user } = useAuthentication();
+
 const items: NavigationMenuItem[][] = [
   [
     {
-      label: 'Inicio',
-      icon: 'i-lucide-house',
-      to: '/dashboard',
+      label: "Inicio",
+      icon: "i-lucide-house",
+      to: "/dashboard",
       exact: true,
     },
     {
-      label: 'Productos',
-      icon: 'i-lucide-inbox',
-      badge: '4',
-      to: '/dashboard/products',
+      label: "Productos",
+      icon: "i-lucide-inbox",
+      badge: "4",
+      to: "/dashboard/products",
       exact: false,
     },
     {
-      label: 'Contacts',
-      icon: 'i-lucide-users',
+      label: "Contacts",
+      icon: "i-lucide-users",
     },
     {
-      label: 'Settings',
-      icon: 'i-lucide-settings',
+      label: "Settings",
+      icon: "i-lucide-settings",
       defaultOpen: true,
       children: [
         {
-          label: 'General',
+          label: "General",
         },
         {
-          label: 'Members',
+          label: "Members",
         },
         {
-          label: 'Notifications',
+          label: "Notifications",
         },
       ],
     },
   ],
   [
     {
-      label: 'Feedback',
-      icon: 'i-lucide-message-circle',
-      to: 'https://github.com/nuxt-ui-templates/dashboard',
-      target: '_blank',
+      label: "Feedback",
+      icon: "i-lucide-message-circle",
+      to: "https://github.com/nuxt-ui-templates/dashboard",
+      target: "_blank",
     },
     {
-      label: 'Help & Support',
-      icon: 'i-lucide-info',
-      to: 'https://github.com/nuxt/ui',
-      target: '_blank',
+      label: "Help & Support",
+      icon: "i-lucide-info",
+      to: "https://github.com/nuxt/ui",
+      target: "_blank",
     },
   ],
 ];
 const searchGroups = ref<CommandPaletteGroup<CommandPaletteItem>[]>([
   {
-    label: 'Productos',
-    id: 'products',
-    highlightedIcon: 'i-lucide-box',
+    label: "Productos",
+    id: "products",
+    highlightedIcon: "i-lucide-box",
     items: [
       {
-        label: 'Nuevo Producto',
-        id: 'new-product',
-        icon: 'i-lucide-plus',
-        to: '/dashboard/products/new',
+        label: "Nuevo Producto",
+        id: "new-product",
+        icon: "i-lucide-plus",
+        to: "/dashboard/products/new",
       },
     ],
   },
@@ -79,14 +82,28 @@ const searchGroups = ref<CommandPaletteGroup<CommandPaletteItem>[]>([
     resizable
     :ui="{ footer: 'border-t border-default' }"
   >
-    <template #header="{ collapsed }" class="flex items-center gap-2">
-      <UDashboardSidebarCollapse variant="subtle" />
-      <IconsNuxtui class="h-6 w-auto" v-if="!collapsed" />
+    <template
+      #header="{ collapsed }"
+      class="flex items-center gap-2"
+    >
+      <NuxtLink
+        to="/"
+        class="flex flex-row items-center justify-center"
+      >
+        <UDashboardSidebarCollapse variant="subtle" class="mr-3"/>
+        <IconsNuxtui
+          v-if="!collapsed"
+          class="h-6 w-auto"
+        />
+      </NuxtLink>
     </template>
 
     <template #default="{ collapsed }">
       <UDashboardSearchButton />
-      <UDashboardSearch title="Buscar" :groups="searchGroups" />
+      <UDashboardSearch
+        title="Buscar"
+        :groups="searchGroups"
+      />
       <!-- <UButton
         :label="collapsed ? undefined : 'Search...'"
         icon="i-lucide-search"
@@ -132,7 +149,7 @@ const searchGroups = ref<CommandPaletteGroup<CommandPaletteItem>[]>([
         :avatar="{
           src: 'https://github.com/benjamincanac.png',
         }"
-        :label="collapsed ? undefined : 'Benjamin'"
+        :label="collapsed ? undefined : user?.name"
         color="neutral"
         variant="ghost"
         class="w-full"
