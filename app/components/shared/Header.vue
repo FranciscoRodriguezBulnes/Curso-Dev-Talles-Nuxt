@@ -3,7 +3,7 @@ import type { NavigationMenuItem } from "@nuxt/ui";
 
 const route = useRoute();
 
-const { isLoggeedIn, logout, isAdmin } = useAuthentication();
+const { isLoggedIn, logout, isAdmin } = useAuthentication();
 
 const items = computed<NavigationMenuItem[]>(() => [
   {
@@ -82,7 +82,7 @@ const responsiveMenu = ref([
 
       <ClientOnly>
         <UButton
-          v-if="!isLoggeedIn"
+          v-if="!isLoggedIn"
           variant="solid"
           icon="i-heroicons-user-circle"
           to="/login"

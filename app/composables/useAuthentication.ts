@@ -1,6 +1,13 @@
 export const useAuthentication = () => {
   const { loggedIn, session, user, clear, fetch } = useUserSession();
 
+  console.log("SESSION:", session.value);
+  console.log("USER:", user.value);
+  console.log("LOGGED IN:", loggedIn.value);
+
+
+
+
   const login = async (email: string, password: string) => {
     try {
       await $fetch("/api/auth/login", {
@@ -18,15 +25,15 @@ export const useAuthentication = () => {
     }
   };
 
-  const register = async (
-    fullName: string,
-    email: string,
-    password: string,
-  ) => {
-    // await $fetch('/api/auth/login') // register
+  // const register = async (
+  //   fullName: string,
+  //   email: string,
+  //   password: string,
+  // ) => {
+  //   // await $fetch('/api/auth/login') // register
 
-    return true;
-  };
+  //   return true;
+  // };
 
   const logout = async () => {
     await clear();
@@ -47,7 +54,7 @@ export const useAuthentication = () => {
 
     fetch,
     login,
-    register,
+    // register,
     logout,
   };
 };

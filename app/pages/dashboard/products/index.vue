@@ -11,6 +11,7 @@
         </p>
       </div>
       <UButton
+        to="/dashboard/product/new"
         icon="i-lucide-plus"
         label="Agregar Producto"
         color="primary"
@@ -36,6 +37,7 @@
 import { h, resolveComponent } from "vue";
 import type { TableColumn } from "@nuxt/ui";
 const UBadge = resolveComponent("UBadge");
+const NuxtLink = resolveComponent("NuxtLink");
 // type Payment = {
 //   id: string;
 //   date: string;
@@ -77,7 +79,20 @@ const columns: TableColumn<Product>[] = [
   {
     accessorKey: "name",
     header: "Nombre",
-    cell: ({ row }) => row.getValue("name"),
+    cell: ({ row }) => {
+      const productId = row.getValue("id");
+      const productName = row.getValue("name");
+
+      return h(
+        NuxtLink,
+        {
+          to: `/dashboard/product/${productId}`,
+          class: "text-indigo-500 hover:text-blue-700 underline cursor-pointer",
+        },
+
+        () => productName,
+      );
+    },
   },
   {
     accessorKey: "description",
