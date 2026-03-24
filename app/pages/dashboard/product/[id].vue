@@ -3,8 +3,11 @@ import { z } from "zod";
 
 const router = useRouter();
 const route = useRoute();
-
 const toast = useToast();
+
+const filesToUpload = ref<File[]>([]);
+
+const filesToUploadPreviews = ref<string[]>([]);
 
 const messageQuery = route.query.massage as string;
 
@@ -86,11 +89,19 @@ const handleSubmit = async () => {
   }
   if (!newProduct.value) return;
 
+  isSubmitting.value = true;
+
   newProduct.value!.tags = `${newProduct.value!.tags}`.split(",");
 
   console.log(newProduct.value);
 
-  const product = await createOrUpdate(newProduct.value);
+  const product = await createOrUpdate(
+    newProduct.value,
+
+    filesToUpload.value.length > 0 ? filesToUpload.value : undefined,
+  );
+
+  newProduct.value = product;
 
   if (isCreating.value) {
     // navigateTo (sería la forma más lógica de hacerlo)
@@ -100,16 +111,41 @@ const handleSubmit = async () => {
     return;
   }
 
-  // // TODO: limpiar los archivos seleccionados
+  // limpiar los archivos seleccionados
+  filesToUpload = [];
 
   toast.add({
     title: "Producto actualizado correctamente",
     description: `El producto ${product.name}, ha sido actualizado correctamente`,
   });
+  isSubmitting.value = false;
 };
 
 const handleCancel = async () => {
   navigateTo("/dashboard/products");
+};
+
+const handleFilesChanged = (event: Event) => {
+  const files = (event.target as HTMLInputElement).files;
+  if (!files) return;
+
+  filesToUpload.value = Array.from(files);
+
+  console.log({ files: filesToUpload.value });
+
+  // Crear vista previa del archivo a subir
+
+  filesToUploadPreviews.value = filesToUpload.value.map((file) => {
+    return URL.createObjectURL(file);
+  });
+};
+
+const removeFilePreview = (index: number) => {
+  filesToUploadPreviews.value = filesToUploadPreviews.value.filter(
+    (file, i) => i !== index,
+  );
+
+  filesToUpload.value = filesToUpload.value.filter((file, i) => i !== index);
 };
 
 // Esto sirve para que esté constantemente viendo si hay variaciones en el formulario y hace la validación
@@ -348,6 +384,31 @@ watch(
                 </button>
               </div>
             </div>
+
+            <!-- Files to upload preview -->
+            <ClientOnly>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div
+                  v-for="(image, index) in filesToUploadPreviews"
+                  :key="image"
+                >
+                  <div class="overflow-hidden rounded-lg relative">
+                    <img
+                      :src="image"
+                      :alt="`Previsualización ${index + 1}`"
+                      class="h-20 w-full object-cover"
+                    />
+                    <UButton
+                      color="error"
+                      icon="i-lucide-x"
+                      class="absolute top-2 right-2"
+                      @click="removeFilePreview(index)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </ClientOnly>
+
             <!-- <textarea
               id="product-images"
               v-model="newProduct.images"
@@ -361,10 +422,10 @@ watch(
               placeholder="https://ejemplo.com/imagen-1.jpg"
             /> -->
             <UInput
-              v-if="!isCreating"
+              v-if="!isCreating && !isSubmitting"
+              id="product-images"
               type="file"
               multiple
-              id="product-images"
               rows="4"
               :class="[
                 'block w-full rounded-md bg-white px-3 py-2 shadow-sm focus:outline-none dark:bg-gray-900 dark:text-gray-100',
@@ -372,6 +433,7 @@ watch(
                   ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
                   : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700',
               ]"
+              @change="handleFilesChanged($event)"
             />
 
             <p class="text-sm text-gray-500 dark:text-gray-400">

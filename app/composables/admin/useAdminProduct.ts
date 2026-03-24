@@ -5,11 +5,17 @@ export const useAdminProduct = async (id: string) => {
 
   const createOrUpdate = async (data: Partial<Product>, files?: File[]) => {
     const isCreating = data.id === 0;
-
-    //TODO: form-Multipart data + archivos
     const formData = new FormData();
 
     formData.append("data", JSON.stringify(data));
+
+    // Si hay archivo, cárgalos
+
+    if (files) {
+      files.forEach((file) => {
+        formData.append("files", file); //files: [file1, file2, file3]
+      });
+    }
 
     if (isCreating) {
       //TODO: crear endpoint
