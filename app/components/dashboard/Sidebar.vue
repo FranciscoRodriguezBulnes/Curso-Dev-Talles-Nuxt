@@ -1,9 +1,9 @@
 <script setup lang="ts">
 // https://ui.nuxt.com/docs/components/dashboard-sidebar
-import {
-  type CommandPaletteGroup,
-  type CommandPaletteItem,
-  type NavigationMenuItem,
+import type {
+  CommandPaletteGroup,
+  CommandPaletteItem,
+  NavigationMenuItem,
 } from "@nuxt/ui";
 
 const { user } = useAuthentication();
@@ -90,7 +90,10 @@ const searchGroups = ref<CommandPaletteGroup<CommandPaletteItem>[]>([
         to="/"
         class="flex flex-row items-center justify-center"
       >
-        <UDashboardSidebarCollapse variant="subtle" class="mr-3"/>
+        <UDashboardSidebarCollapse
+          variant="subtle"
+          class="mr-3"
+        />
         <IconsNuxtui
           v-if="!collapsed"
           class="h-6 w-auto"
