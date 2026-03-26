@@ -9,14 +9,13 @@ const { data: productSuggestions, status } = useFetch(
     lazy: true,
     server: false,
     cache: "force-cache",
-
   },
 );
 
 console.log("Slug recibido en el componente:", props.slug);
 </script>
 <template>
-  <div>
+  <ClientOnly>
     <div
       v-if="status === 'idle' || status === 'pending'"
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
@@ -29,6 +28,7 @@ console.log("Slug recibido en el componente:", props.slug);
     <ProductsGrid
       v-else
       :products="productSuggestions || []"
+      class="fade-in"
     />
-  </div>
+  </ClientOnly>
 </template>
