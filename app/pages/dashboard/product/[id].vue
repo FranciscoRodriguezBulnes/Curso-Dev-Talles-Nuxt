@@ -112,7 +112,7 @@ const handleSubmit = async () => {
   }
 
   // limpiar los archivos seleccionados
-  filesToUpload = [];
+  filesToUpload.value = [];
 
   toast.add({
     title: "Producto actualizado correctamente",
