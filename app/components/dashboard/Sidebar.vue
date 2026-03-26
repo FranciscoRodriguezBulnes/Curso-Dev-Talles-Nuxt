@@ -82,23 +82,22 @@ const searchGroups = ref<CommandPaletteGroup<CommandPaletteItem>[]>([
     resizable
     :ui="{ footer: 'border-t border-default' }"
   >
-    <template
-      #header="{ collapsed }"
-      class="flex items-center gap-2"
-    >
-      <NuxtLink
-        to="/"
-        class="flex flex-row items-center justify-center"
-      >
-        <UDashboardSidebarCollapse
-          variant="subtle"
-          class="mr-3"
-        />
-        <IconsNuxtui
-          v-if="!collapsed"
-          class="h-6 w-auto"
-        />
-      </NuxtLink>
+    <template #header="{ collapsed }">
+      <div class="flex items-center gap-2">
+        <NuxtLink
+          to="/"
+          class="flex flex-row items-center justify-center"
+        >
+          <UDashboardSidebarCollapse
+            variant="subtle"
+            class="mr-3"
+          />
+          <IconsNuxtui
+            v-if="!collapsed"
+            class="h-6 w-auto"
+          />
+        </NuxtLink>
+      </div>
     </template>
 
     <template #default="{ collapsed }">

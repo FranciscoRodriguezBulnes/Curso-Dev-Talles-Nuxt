@@ -1,36 +1,36 @@
 <script setup lang="ts">
-const {  logout } = useAuthentication();
+const { logout } = useAuthentication();
 
 const breadcrumbItems = [
   {
-    label: "Dashboard",
-    icon: "i-lucide-layout-dashboard",
+    label: 'Dashboard',
+    icon: 'i-lucide-layout-dashboard',
   },
   {
-    label: "Inicio",
-    icon: "i-lucide-house",
+    label: 'Inicio',
+    icon: 'i-lucide-house',
   },
 ];
 const userMenuItems = [
   [
     {
-      label: "Perfil",
-      icon: "i-lucide-user",
-      to: "#",
+      label: 'Perfil',
+      icon: 'i-lucide-user',
+      to: '#',
     },
     {
-      label: "Preferencias",
-      icon: "i-lucide-settings",
-      to: "#",
+      label: 'Preferencias',
+      icon: 'i-lucide-settings',
+      to: '#',
     },
   ],
   [
     {
-      label: "Cerrar sesión",
-      icon: "i-lucide-log-out",
-      onSelect: async() => {
-        // console.log("Logout clicked");
-        await logout()
+      label: 'Cerrar sesión',
+      icon: 'i-lucide-log-out',
+      onSelect: async () => {
+        // console.log('Logout clicked');
+        await logout();
       },
     },
   ],
@@ -60,10 +60,7 @@ const userMenuItems = [
         />
 
         <!-- Divider -->
-        <USeparator
-          orientation="vertical"
-          class="h-6"
-        />
+        <USeparator orientation="vertical" class="h-6" />
 
         <!-- User Dropdown Menu -->
         <UDropdownMenu

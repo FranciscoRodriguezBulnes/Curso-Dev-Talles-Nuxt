@@ -1,10 +1,6 @@
-// export default defineEventHandler(async (event) => {
-//   return "Hello login"
-// });
-
-import { z } from "zod";
-import prisma from "~~/lib/prisma";
-import bcrypt from "bcryptjs";
+import { z } from 'zod';
+import prisma from '~~/lib/prisma';
+import bcrypt from 'bcryptjs';
 
 const bodySchema = z.object({
   email: z
@@ -12,9 +8,9 @@ const bodySchema = z.object({
     .toLowerCase()
     .trim()
     .refine((val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), {
-      message: "Email is not valid",
+      message: 'Email is not valid',
     }),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
 export default defineEventHandler(async (event) => {
@@ -29,20 +25,12 @@ export default defineEventHandler(async (event) => {
   if (!user) {
     throw createError({
       status: 401,
-      message: "Bad credentials (email)",
+      message: 'Bad credentials (email)',
     });
   }
 
   const isPasswordValid = bcrypt.compareSync(password, user.password);
 
-  
-  if (!isPasswordValid) {
-    throw createError({
-      statusCode: 401,
-      message: "Bad credentials (password)",
-    });
-  }
-  
   const userSession = {
     id: user.id,
     name: user.name,
@@ -50,15 +38,19 @@ export default defineEventHandler(async (event) => {
     roles: user.roles,
   };
 
-  
   await setUserSession(event, {
     user: userSession,
   });
 
+  if (!isPasswordValid) {
+    throw createError({
+      statusCode: 401,
+      message: 'Bad credentials (password)',
+    });
+  }
 
   return {
-    message: "Login successful",
-    // user:user,
+    message: 'Login successful',
     user: userSession,
   };
 });
